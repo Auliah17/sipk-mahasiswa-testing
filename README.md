@@ -132,4 +132,4 @@ Project ini dibuat untuk memenuhi tugas mata kuliah **Pengujian dan Kualitas Per
 
 ---
 
-⭐ **Kelompok 1 – IK 23**
+
