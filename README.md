@@ -1,18 +1,16 @@
-
 # 🎓 SIPK (Sistem Informasi Pendaftaran Kegiatan Mahasiswa)
 
-SIPK adalah aplikasi berbasis web yang digunakan untuk mengelola kegiatan mahasiswa. Sistem ini terdiri dari frontend berbasis React dan backend berbasis Express.js dengan database MySQL.
+SIPK merupakan aplikasi berbasis web yang digunakan untuk mengelola kegiatan mahasiswa. Sistem ini terdiri dari frontend berbasis React dan backend berbasis Express.js dengan database MySQL. Selain menyediakan fitur manajemen kegiatan, project ini juga menerapkan pengujian perangkat lunak menggunakan Jest, Code Coverage, Regression Testing, dan Continuous Integration (CI/CD) melalui GitHub Actions.
 
 ---
 
 # 👥 Anggota Kelompok
 
-• Qhaylha Sahara Putri  
-• Auliah Handayani Tahir  
-• Siti Nurhaliza   
-( 231011012 ) IK 23-A 
-( 231011023 ) IK 23-A 
-( 231011057 ) IK 23-A 
+| Nama | NIM | Kelas |
+|------|------|------|
+| Qhaylha Sahara Putri | 231011012 | IK 23-A |
+| Auliah Handayani Tahir | 231011023 | IK 23-A |
+| Siti Nurhaliza | 231011057 | IK 23-A |
 
 ---
 
@@ -33,6 +31,7 @@ SIPK adalah aplikasi berbasis web yang digunakan untuk mengelola kegiatan mahasi
 
 ## Testing
 - Jest
+- Supertest
 - GitHub Actions (CI/CD)
 
 ---
@@ -42,31 +41,38 @@ SIPK adalah aplikasi berbasis web yang digunakan untuk mengelola kegiatan mahasi
 ```
 sipk-mahasiswa
 │
+├── .github/
+│   └── workflows/
+│       └── test.yml
+│
 ├── frontend/
-│   ├── src/
 │   ├── public/
-│   └── package.json
+│   ├── src/
+│   ├── package.json
+│   └── package-lock.json
 │
 ├── backend/
+│   ├── config/
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
 │   ├── tests/
 │   ├── server.js
-│   └── package.json
+│   ├── package.json
+│   └── package-lock.json
 │
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
 ---
 
-# 🚀 Cara Install Project
-
-## 1. Clone Repository
+# 🚀 Cara Clone Repository
 
 ```bash
-git clone https://github.com/Auliah17/sipk-mahasiswa.git
+git clone https://github.com/Auliah17/sipk-mahasiswa-testing.git
 ```
 
 Masuk ke folder project
@@ -77,29 +83,7 @@ cd sipk-mahasiswa
 
 ---
 
-## 2. Install Backend
-
-```bash
-cd backend
-npm install
-```
-
----
-
-## 3. Install Frontend
-
-Buka terminal baru
-
-```bash
-cd frontend
-npm install
-```
-
----
-
-# ▶️ Menjalankan Project
-
-## Menjalankan Backend
+# 📦 Instalasi Backend
 
 Masuk ke folder backend
 
@@ -107,13 +91,38 @@ Masuk ke folder backend
 cd backend
 ```
 
-Jalankan server
+Install dependency
 
 ```bash
+npm install
+```
+
+---
+
+# 📦 Instalasi Frontend
+
+Buka terminal baru
+
+```bash
+cd frontend
+```
+
+Install dependency
+
+```bash
+npm install
+```
+
+---
+
+# ▶️ Menjalankan Backend
+
+```bash
+cd backend
 npm run dev
 ```
 
-Server akan berjalan pada
+Server berjalan pada
 
 ```
 http://localhost:5000
@@ -121,21 +130,14 @@ http://localhost:5000
 
 ---
 
-## Menjalankan Frontend
-
-Masuk ke folder frontend
+# ▶️ Menjalankan Frontend
 
 ```bash
 cd frontend
-```
-
-Jalankan aplikasi
-
-```bash
 npm run dev
 ```
 
-Frontend akan berjalan pada
+Frontend berjalan pada
 
 ```
 http://localhost:5173
@@ -157,7 +159,7 @@ Kemudian jalankan
 npm test
 ```
 
-Apabila berhasil akan muncul tampilan seperti berikut
+Contoh hasil
 
 ```
 PASS tests/validation.test.js
@@ -167,11 +169,12 @@ PASS tests/admin.kegiatan.test.js
 
 Test Suites: 4 passed
 Tests: 16 passed
+Snapshots: 0 total
 ```
 
 ---
 
-# 📊 Melihat Code Coverage
+# 📊 Menjalankan Code Coverage
 
 Masuk ke folder backend
 
@@ -182,23 +185,90 @@ npm test -- --coverage
 Contoh hasil
 
 ```
-Statements : 100%
-Branches   : 100%
-Functions  : 100%
-Lines       : 100%
+----------------|---------|----------|---------|---------|
+File            | % Stmts | % Branch | % Funcs | % Lines |
+----------------|---------|----------|---------|---------|
+All files       |   100   |   100    |   100   |   100   |
+----------------|---------|----------|---------|---------|
 ```
 
 ---
 
-# 🔄 Continuous Integration (CI/CD)
+# 🔄 Regression Testing
 
-Project ini menggunakan **GitHub Actions** untuk menjalankan pengujian secara otomatis setiap kali ada perubahan pada repository.
+Regression testing dilakukan dengan cara mengubah logika validasi pada fungsi `validation.js`.
 
-Workflow akan:
+Contoh perubahan:
 
-- Install dependency
+```javascript
+if (!name || !value)
+```
+
+diubah menjadi
+
+```javascript
+if (!name)
+```
+
+Kemudian jalankan kembali
+
+```bash
+npm test
+```
+
+Hasil pengujian menunjukkan terdapat test yang gagal (FAILED), yang membuktikan bahwa pengujian mampu mendeteksi perubahan logika program.
+
+Setelah kode dikembalikan seperti semula, seluruh test kembali berstatus **PASS**.
+
+---
+
+# 🌐 API Testing
+
+Project telah menerapkan pengujian terhadap beberapa controller menggunakan **Jest**.
+
+Controller yang telah diuji antara lain:
+
+- Register User
+- Login User
+- Forgot Password
+- Reset Password
+- Get Profile
+- Update Profile
+- Change Password
+- Get Kegiatan
+- Get Detail Kegiatan
+- Create Pengajuan Kegiatan
+- Get Data Kegiatan Admin
+- Update Kegiatan
+- Verifikasi Kegiatan
+- Delete Kegiatan
+
+Seluruh pengujian berhasil dijalankan dengan status **PASS**.
+
+---
+
+# 🤖 Continuous Integration (CI/CD)
+
+Project menggunakan **GitHub Actions** untuk melakukan otomatisasi pengujian.
+
+Workflow akan berjalan setiap kali terdapat:
+
+- Push ke branch main
+- Pull Request
+
+Tahapan workflow meliputi:
+
+- Checkout Repository
+- Setup Node.js
+- Install Dependencies
 - Menjalankan Unit Test
-- Menampilkan status PASS/FAILED
+- Menampilkan hasil PASS atau FAILED
+
+File workflow berada pada
+
+```
+.github/workflows/test.yml
+```
 
 ---
 
@@ -206,9 +276,9 @@ Workflow akan:
 
 ## Mahasiswa
 
-- Registrasi
+- Registrasi akun
 - Login
-- Melihat kegiatan
+- Melihat daftar kegiatan
 - Detail kegiatan
 - Mendaftar kegiatan
 - Melihat riwayat pendaftaran
@@ -217,27 +287,28 @@ Workflow akan:
 ## Admin
 
 - Login
-- Kelola kegiatan
+- Mengelola kegiatan
 - Verifikasi kegiatan
-- Kelola peserta
+- Mengelola peserta
 - Verifikasi peserta
-- Laporan kegiatan
+- Melihat laporan kegiatan
 
 ---
 
 # 📷 Dokumentasi Pengujian
 
-Project telah dilakukan beberapa jenis pengujian:
+Jenis pengujian yang telah dilakukan:
 
 - ✅ Unit Testing
+- ✅ API Controller Testing
 - ✅ Validation Testing
 - ✅ Regression Testing
-- ✅ Code Coverage
 - ✅ Automation Testing
-- ✅ GitHub Actions CI/CD
+- ✅ Code Coverage
+- ✅ Continuous Integration (GitHub Actions)
 
 ---
 
 # 📄 Lisensi
 
-Project ini dibuat untuk memenuhi tugas mata kuliah **Pengujian dan Kualitas Perangkat Lunak**.
+Project ini dikembangkan sebagai tugas mata kuliah **Pengujian dan Kualitas Perangkat Lunak** Program Studi Informatika.
